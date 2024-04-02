@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escenario A-Frame con botón de mutear y reproducir</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <style>
+    /* Estilos para los botones */
+    .controlButton {
+      position: fixed;
+      z-index: 999; /* Asegura que el botón esté por encima del contenido de la escena */
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #muteButton {
+      top: 10px;
+      right: 10px;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #playButton {
+      top: 10px;
+      left: 10px;
+      background-color: #007bff;
+      color: white;
+    }
+
+    .controlButton:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botones de control -->
+  <button id="muteButton" class="controlButton">Mutar música</button>
+  <button id="playButton" class="controlButton">Reproducir música</button>
+
+  <!-- Escenario A-Frame -->
+  <a-scene background="color: #ECECEC">
+    <!-- Elemento de sonido -->
+    <a-sound id="music" src="../src/music/Interstellar Main Theme - Hans Zimmer.mp3" loop="true" distanceModel="linear" volume="0.5" position="0 1.6 0"></a-sound>
+    
+    <!-- Suelo -->
+    <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" color="#7BC8A4"></a-plane>
+    
+    <!-- Cubo -->
+    <a-box position="0 1.25 -5" width="2" height="2" depth="2" color="#4CC3D9"></a-box>
+    
+    <!-- Cámara -->
+    <a-entity camera position="0 1.6 0" look-controls wasd-controls></a-entity>
+  </a-scene>
+
+  <!-- Script para controlar los botones de mutear y reproducir -->
+  <script>
+    var sound = document.querySelector('#music');
+    var muteButton = document.querySelector('#muteButton');
+    var playButton = document.querySelector('#playButton');
+
+    muteButton.addEventListener('click', function() {
+      if (sound.getAttribute('volume') === '0') {
+        sound.setAttribute('volume', '0.5'); // Establecer volumen a la mitad (0.5)
+        muteButton.textContent = 'Mutar música';
+      } else {
+        sound.setAttribute('volume', '0'); // Silenciar el sonido
+        muteButton.textContent = 'Desmutear música';
+      }
+    });
+
+    playButton.addEventListener('click', function() {
+      if (sound.getAttribute('volume') === '0') {
+        sound.setAttribute('volume', '0.5'); // Establecer volumen a la mitad (0.5) si estaba silenciado
+        muteButton.textContent = 'Mutar música';
+      }
+      if (sound.components.sound.isPlaying) {
+        sound.components.sound.pause(); // Pausar la reproducción si está sonando
+        playButton.textContent = 'Reproducir música';
+      } else {
+        sound.components.sound.play(); // Reproducir si estaba pausado
+        playButton.textContent = 'Pausar música';
+      }
+    });
+  </script>
+</body>
+</html>

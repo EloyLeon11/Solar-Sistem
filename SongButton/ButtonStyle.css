@@ -1,0 +1,18 @@
+/* Estilos para el botón */
+#muteButton {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999; /* Asegura que el botón esté por encima del contenido de la escena */
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgb(74, 72, 72);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #muteButton:hover {
+    background-color: rgb(74, 72, 72);
+  }

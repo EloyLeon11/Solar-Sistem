@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Escena con movimiento y rotación en A-Frame</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <style>
+      #flechas {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none; /* Ocultar flechas por defecto */
+        justify-content: space-between;
+        width: 100px;
+        z-index: 9999;
+      }
+      .flecha {
+        background-color: rgba(255, 255, 255, 0.5);
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 1000px) {
+        #flechas {
+          display: flex; /* Mostrar flechas cuando el ancho de la pantalla sea menor a 1000px */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Suelo -->
+      <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#7BC8A4"></a-plane>
+      
+      <!-- Cubos -->
+      <a-box position="-1 1.5 -3" rotation="0 45 0" width="1" height="3" depth="1" color="red"></a-box>
+      <a-box position="0 1.5 -5" rotation="0 0 0" width="1" height="3" depth="1" color="green"></a-box>
+      <a-box position="1 1.5 -3" rotation="0 -45 0" width="1" height="3" depth="1" color="blue"></a-box>
+      
+      <!-- Cámara -->
+      <a-entity id="camara" camera look-controls wasd-controls universal-controls position="0 1.6 0"></a-entity>
+    </a-scene>
+
+    <!-- Flechas para controlar el movimiento -->
+    <div id="flechas">
+      <div id="arriba" class="flecha">↑</div>
+      <div id="abajo" class="flecha">↓</div>
+      <div id="izquierda" class="flecha">←</div>
+      <div id="derecha" class="flecha">→</div>
+    </div>
+
+    <!-- Botón para cambiar la rotación de la cámara -->
+    <button id="cambiarRotacion">Cambiar Rotación</button>
+
+    <script>
+      // Variables para controlar el movimiento y la rotación
+      var moving = false;
+      var moveInterval;
+      var looking = false;
+
+      function startMove(direction) {
+        moving = true;
+        moveInterval = setInterval(function() {
+          move(direction);
+        }, 50); // Ajusta la velocidad de movimiento aquí
+      }
+
+      function stopMove() {
+        moving = false;
+        clearInterval(moveInterval);
+      }
+
+      function move(direction) {
+        var camera = document.querySelector('[camera]');
+        var currentPosition = camera.getAttribute('position');
+        var newPosition = { x: currentPosition.x, y: currentPosition.y, z: currentPosition.z };
+
+        switch (direction) {
+          case 'arriba':
+            newPosition.z -= 0.1; // Ajusta la velocidad de movimiento aquí
+            break;
+          case 'abajo':
+            newPosition.z += 0.1; // Ajusta la velocidad de movimiento aquí
+            break;
+          case 'izquierda':
+            newPosition.x -= 0.1; // Ajusta la velocidad de movimiento aquí
+            break;
+          case 'derecha':
+            newPosition.x += 0.1; // Ajusta la velocidad de movimiento aquí
+            break;
+        }
+
+        camera.setAttribute('position', newPosition);
+      }
+
+      // Función para iniciar el movimiento de la vista
+      function startLook() {
+        looking = true;
+        var camera = document.querySelector('[camera]');
+        var initialRotation = camera.getAttribute('rotation');
+        var lastY;
+
+        document.addEventListener('touchmove', function(e) {
+          if (looking) {
+            var deltaY = e.touches[0].clientY - lastY;
+            var newRotationX = initialRotation.x - deltaY * 0.1; // Ajusta la velocidad de rotación aquí
+            camera.setAttribute('rotation', { x: newRotationX, y: initialRotation.y, z: initialRotation.z });
+          }
+          lastY = e.touches[0].clientY;
+        });
+      }
+
+      // Función para detener el movimiento de la vista
+      function stopLook() {
+        looking = false;
+      }
+
+      // Manejar eventos táctiles para las flechas
+      document.getElementById('arriba').addEventListener('touchstart', function() {
+        startMove('arriba');
+      });
+      document.getElementById('abajo').addEventListener('touchstart', function() {
+        startMove('abajo');
+      });
+      document.getElementById('izquierda').addEventListener('touchstart', function() {
+        startMove('izquierda');
+      });
+      document.getElementById('derecha').addEventListener('touchstart', function() {
+        startMove('derecha');
+      });
+
+      document.getElementById('arriba').addEventListener('touchend', stopMove);
+      document.getElementById('abajo').addEventListener('touchend', stopMove);
+      document.getElementById('izquierda').addEventListener('touchend', stopMove);
+      document.getElementById('derecha').addEventListener('touchend', stopMove);
+
+      // Manejar eventos táctiles para la rotación de la vista
+      document.addEventListener('touchstart', function(e) {
+        if (!e.targetTouches.length > 1) {
+          startLook();
+        }
+      });
+
+      document.addEventListener('touchend', stopLook);
+
+      // Cambiar la rotación de la cámara cuando se hace clic en el botón
+      document.getElementById('cambiarRotacion').addEventListener('click', function() {
+        var camera = document.getElementById('camara');
+        var currentRotation = camera.getAttribute('rotation');
+        var newRotation = { x: currentRotation.x, y: currentRotation.y + 45, z: currentRotation.z };
+        camera.setAttribute('rotation', newRotation);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,195 @@
+<html>
+
+<head>
+
+  <link rel="stylesheet" href="./SongButton/ButtonStyle.css">
+  <link rel="stylesheet" href="Arrows/ArrowsStyle.css">
+
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+  <a-scene background="color: black">
+
+
+    <!-- 3D MODEL -->
+
+    <a-gltf-model src="./src/Model/Spiderman/scene.gltf" position="10 15 5" scale="3 3 3"
+      rotation=" 0 90 0"></a-gltf-model>
+
+    <!-- Elemento de sonido -->
+    <a-sound id="music" src="./src/music/Interstellar Main Theme - Hans Zimmer.mp3" autoplay="true" loop="true"
+      distanceModel="linear" volume="40" position="0 0 0"></a-sound> 
+
+    <!-- Mute Button -->
+    <button id="muteButton">Mutear</button>
+
+
+
+    <!-- Flechas para controlar el movimiento -->
+    <div id="flechas">
+      <div id="arriba" class="flecha">↑</div>
+      <div id="abajo" class="flecha">↓</div>
+      <div id="izquierda" class="flecha">←</div>
+      <div id="derecha" class="flecha">→</div>
+    </div>
+
+
+
+
+    <!-- Camera -->
+
+    <a-entity position="230 18 20" rotation="0 90 0" wasd-controls="fly: true; acceleration: 500">
+      <a-camera></a-camera>
+    </a-entity>
+
+    <!-- Light -->
+
+    <a-entity light="type: point; intensity: 15; distance: 320; " position="0 0 0">
+    </a-entity>
+
+    <a-entity light="type: ambient; intensity: 0.5; " position="0 0 0"></a-entity>
+
+
+    <!-- Assets -->
+    <a-assets>
+      <img id="space" src="./src/Textures/space.jpg">
+      <img id="sun" src="./src/Textures/sun.jpg">
+      <img id="mercury" src="./src/Textures/mercury.jpg">
+      <img id="venus" src="./src/Textures/venus.jpg">
+      <img id="earth" src="./src/Textures/earth.jpg">
+      <img id="moon" src="./src/Textures/moon.jpg">
+      <img id="mars" src="./src/Textures/mars.jpg">
+      <img id="jupiter" src="./src/Textures/jupiter.jpg">
+      <img id="saturn" src="./src/Textures/saturn.jpg">
+      <img id="saturnRing" src="./src/Textures/saturnRing.jpg">
+      <img id="uranus" src="./src/Textures/uranus.jpg">
+      <img id="uranusRing" src="./src/Textures/uranusRing.jpg">
+      <img id="neptune" src="./src/Textures/neptune.jpg">
+      <img id="pluto" src="./src/Textures/pluto.jpg">
+    </a-assets>
+
+
+    <!-- Sky -->
+
+    <a-sky src="#space"></a-sky>
+
+    <!-- Sun -->
+    <a-entity>
+      <a-sphere src="#sun" position="0 0 0" radius="35" color="#FFEC33"></a-sphere>
+
+    </a-entity>
+
+    <!-- PLANETS -->
+
+    <!-- Mercury -->
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur:200000; easing: linear">
+      <a-sphere src="#mercury" position="65 0 -10" radius="4" color="#CC9966"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 600000; easing: linear"></a-sphere>
+    </a-entity>
+
+    <!-- Venus -->
+
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur:400000; easing: linear">
+      <a-sphere src="#venus" position="100 0 -10" radius="10" color="#FFCC66"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 800000; easing: linear"></a-sphere>
+    </a-entity>
+
+
+    <!-- Earth -->
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur:500000; easing: linear">
+      <a-sphere src="#earth" position="140 0 -10" radius="11" color="#3399FF"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear">
+        <a-sphere src="#moon" position="15 9 0" radius="2" color="#FFFFFF"></a-sphere>
+        <!-- Moonlight -->
+
+      </a-sphere>
+
+
+    </a-entity>
+
+    <!-- Mars -->
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur:700000; easing: linear">
+      <a-sphere src="#mars" position="-185 0 -10" radius="6.5" color="#FF3300"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-sphere>
+    </a-entity>
+
+    <!-- Jupiter -->
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur:900000; easing: linear">
+      <a-sphere src="#jupiter" position="238 0 -10" radius="20" color="#FF9900"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-sphere>
+    </a-entity>
+
+
+    <!-- Saturn -->
+
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur:940000; easing: linear">
+      <a-sphere src="#saturn" position="-311 0 -10" radius="17" color="#FFCC00"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-sphere>
+
+      <a-torus src="#saturnRing" position="-311 1 -11" radius="25" radius-tubular="1.2" color="#778D2E"
+        scale=" 1 1 0.04" rotation="-60 90 0" segments-tubular="200"></a-torus>
+    </a-entity>
+
+    <!-- Uranus -->
+
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur:999990; easing: linear">
+
+      <a-sphere src="#uranus" position="-370 0 -10" radius="14.11" color="#66CCFF"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-sphere>
+      <a-torus src="#uranusRing" position="-370 1 -10" radius="18" radius-tubular="0.1" color="#36B3B9"
+        scale=" 1 1 0.04" rotation="-30 90 0" segments-tubular="200"></a-torus>
+
+    </a-entity>
+
+    <!-- Neptune -->
+
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur:5000000; easing: linear">
+      <a-sphere src="#neptune" position="425 0 -10" radius="12" color="#3366FF"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-sphere>
+    </a-entity>
+
+
+    <!-- Pluto -->
+    <a-entity rotation="0 0 0">
+      <a-sphere src="#pluto" position="510 0 -10" radius="2.4" color="#999999"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 100000; easing: linear"></a-sphere>
+    </a-entity>
+
+
+  </a-scene>
+
+  <script src="./Arrows/ArrowsScrypt.js"></script>
+  <script src="./SongButton/ButtonScript.js"></script>
+</body>
+
+
+
+<!-- ESTA POSICION INICIAL DE LA CAMARA ME GUSTA //// position="235 10 10" rotation="0 90 0" /// -->
+<!-- animation="property: rotation; to: 0 360 0; loop: true; dur: 9999" /// con este codigo hago girar los planetas en si mismos-->
+<!-- rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 99990" /// con este codigo hago girar los planetas alrededor de la posicion que yo quiera-->
+
+
+
+<!-- ANIMACION PARA QUE LA TIERRA GIRE ALREDOR DEL SOL CON LA LUNA
+  
+      Earth 
+
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 70000 easing: linear">
+
+      <a-sphere src="#earth" position="50 0 -10" radius="5.4" color="#3399FF"
+
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 44444">
+
+         Moonlight 
+
+        <a-sphere src="#moon" position="8 3 0" radius="1" color="#FFFFFF"></a-sphere>
+
+       </a-sphere>
+
+    </a-entity> -->
